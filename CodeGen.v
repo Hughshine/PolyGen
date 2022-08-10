@@ -33,6 +33,7 @@ Definition complete_generate d n pi :=
   BIND polyloop <- generate d n pi -;
   polyloop_to_loop (n - d)%nat polyloop.
 
+Check complete_generate. 
 Theorem complete_generate_preserve_sem :
   forall d n pi env mem1 mem2,
     (d <= n)%nat ->
@@ -77,6 +78,15 @@ Definition complete_generate_many es n pis :=
   let k := list_max (map (fun pi => length pi.(pi_schedule)) pis) in
   let epis := elim_schedule k es pis in
   complete_generate_lex_many (n + k - es)%nat (n + k)%nat epis.
+
+Check complete_generate_many. 
+
+(*
+  complete_generate_many
+    :   nat ->
+        nat ->
+        list Polyhedral_Instruction ->
+        ImpureConfig.Core.Base.imp (stmt * bool) *)
 
 Theorem complete_generate_many_preserve_sem :
   forall es n pis env mem1 mem2,

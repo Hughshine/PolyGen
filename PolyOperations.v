@@ -82,6 +82,14 @@ Fixpoint poly_difference p1 p2 :=
     BIND b <- isBottom pl1 -;
     pure (if b then diff else (pl1 :: diff))
   end.
+  (**
+    ** list (list Z * Z) ->
+    ** list (list Z * Z) ->
+    **  ImpureConfig.Core.Base.imp (list (list (list Z * Z)) * bool)
+  *)
+
+Check poly_difference.
+Print ImpureConfig.Core.Base.imp.
 
 Lemma poly_difference_def :
   forall p2 p1 v, WHEN pl <- poly_difference p1 p2 THEN
@@ -155,6 +163,14 @@ Definition separate_polys pol1 pol2 :=
   if empty then pure (nil, pol2 :: nil) else
   BIND diff <- poly_difference pol2 pol1 -;
   pure (inter :: nil, diff).
+
+(*
+separate_polys
+	 : polyhedron ->
+       polyhedron ->
+       ImpureConfig.Core.Base.imp
+         (list (list (list Z * Z)) * list polyhedron * bool) *)
+Check separate_polys.
 
 Lemma separate_polys_nrl :
   forall pol1 pol2 n, (poly_nrl pol1 <= n)%nat -> (poly_nrl pol2 <= n)%nat ->
@@ -244,6 +260,10 @@ Fixpoint split_polys_rec (l : list polyhedron) (n : nat) : imp (list (polyhedron
     ) spl -;
     pure (flatten spl1)
   end.
+
+(* Check -. *)
+
+
 
 Lemma split_polys_rec_index_correct :
   forall pols n, WHEN out <- split_polys_rec pols n THEN forall polpl i, In polpl out -> In i (snd polpl) -> (n <= i < n + length pols)%nat.

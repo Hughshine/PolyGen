@@ -22,7 +22,7 @@ Require Import Misc.
 Parameter mem : Type.
 
 (** * Iterating semantics on a list *)
-
+(** TODO: P的含义是什么？ *)
 Inductive iter_semantics {A : Type} (P : A -> mem -> mem -> Prop) : list A -> mem -> mem -> Prop :=
 | IDone : forall mem, iter_semantics P nil mem mem
 | IProgress : forall x l mem1 mem2 mem3,

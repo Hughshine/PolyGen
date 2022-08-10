@@ -25,6 +25,8 @@ Open Scope list_scope.
 
 (** * The semantics of the Loop language *)
 
+(** TODO: 对乘法、除法、mod的整数限制，在证明里有什么体现？可以不做这个限制吗？现在除0有什么影响？effect需要怎么处理？ *)
+(** 看起来，这里的证明对Loop这个语言的I没有要求，只是对for/if（以及其中使用的expr的evaluation）有要求。这意味着什么？*)
 Inductive expr :=
 | Constant : Z -> expr
 | Sum : expr -> expr -> expr
@@ -239,6 +241,10 @@ Inductive stmt :=
 | Seq : list stmt -> stmt
 | Guard : test -> stmt -> stmt.
 
+(** 
+(map (eval_expr env) es) 是 es 这个expr list在env下的值的list.
+TODO: 问env和mem的区别和联系？
+*)
 Inductive loop_semantics : stmt -> list Z -> mem -> mem -> Prop :=
 | LInstr : forall i es env mem1 mem2,
     instr_semantics i (map (eval_expr env) es) mem1 mem2 ->

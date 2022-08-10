@@ -406,6 +406,7 @@ Lemma polyloop_to_loop_correct :
     length env = n ->
     poly_loop_semantics pstmt env mem1 mem2.
 Proof.
+  (** induction on poly statement, nested loop => poly + polys  *)
   induction pstmt; intros n env mem1 mem2 st Hst Hsem Henv; simpl in *.
   - bind_imp_destruct Hst inner Hinner.
     generalize (scan_dimension_sem _ _ _ _ Hst _ mem1 mem2 Henv).

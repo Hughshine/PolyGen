@@ -15,8 +15,8 @@ We recommend to use either OPAM (the OCaml package manager) or Nix (a Linux pack
 ## With OPAM 
 
 Create a new OPAM switch: `opam switch create polygen 4.06.1+flambda`.
-Install GMP, Debian/Ubuntu package libgmp-dev
-Install GLPK, Debian/Ubuntu package libglpk-dev
+Install GMP, Debian/Ubuntu package libgmp-dev (GNU Multiple Precision Arithmetic Library)
+Install GLPK, Debian/Ubuntu package libglpk-dev (GNU Linear Programming Kit)
 Install [eigen](http://eigen.tuxfamily.org/), Debian/Ubuntu package libeigen3-dev.
 Install the following ocaml packages: `opam install zarith glpk menhir coq=8.7.2`.
 
@@ -46,3 +46,33 @@ The executable running the code generator on different tests will be in `ocaml/t
 Alternatively, if using `nix`, you can just type `nix build`, and the executable will be available in `result/bin/test`.
 
 You can build the documentation with `make documentation`, and it will be available in doc/index.html, or result/doc/index.html if you used `nix build`.
+
+```
+Table of contents
+General-purpose libraries
+Misc: Extensions to the Coq standard library.
+Linalg: Definitions of vectors of integers and operations over them.
+Result: The error monad.
+TopoSort: Topological sort.
+Mymap: Workaround for a bug in Coq.
+ImpureOperations: Definition of operations over a monad (sequence and mapM).
+ImpureAlarmConfig: Error monad used throughout the code.
+Polyhedral operations
+VplInterface: Conversion between our representation of polyhedra and the one used by the VPL.
+Canonizer: Simplication of redundant constraints in polyhedra using the VPL.
+Heuristics: Heuristics for some polyhedral operations.
+Projection: Computation of polyhedral projections using Fourier-Motzkin elimination.
+PolyTest: Operators that test over polyhedra: emptiness, inclusion, precedence (section 5 of the paper).
+PolyOperations: Polyhedra operations: intersection, difference, splitting and sorting (section 5 of the paper), simplifying in a context (section 6 of the paper).
+Languages and semantics
+Semantics: Memory states, semantics for iterating over a list and associated theorems.
+Instr: Semantics of base instructions.
+PolyLang: Semantics of the scheduled polyhedral language, and proof of schedule elimination (sections 3 and 4 of the paper).
+PolyLoop: Semantics of the PolyLoop language (section 5 of the paper).
+Loop: Semantics of the Loop language (section 7 of the paper).
+Compilation
+ASTGen: Code generation from PolyLang to PolyLoop (section 5 of the paper).
+PolyLoopSimpl: Simplification of PolyLoop programs (section 6 of the paper).
+LoopGen: Code generation from PolyLoop to Loop (section 7 of the paper).
+CodeGen: Proof of the main result by composing all passes.
+```

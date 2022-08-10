@@ -20,4 +20,5 @@ Require Import Semantics.
 
 Parameter instr : Type.
 Parameter dummy_instr : instr.
+(** list Z 指循环变量相关的hole的求值结果；*)
 Parameter instr_semantics : instr -> list Z -> mem -> mem -> Prop.

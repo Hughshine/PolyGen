@@ -30,10 +30,14 @@ Open Scope list_scope.
 
 Record Polyhedral_Instruction := {
   pi_instr : instr ;
+  (** polyhedron = list constraint = list (list Z * Z)*)
   pi_poly : polyhedron ;
   pi_schedule : list (list Z * Z)%type ;
   pi_transformation : list (list Z * Z)%type ;
 }.
+
+Print polyhedron.
+Print constraint. 
 
 Definition Poly_Program := list Polyhedral_Instruction.
 
