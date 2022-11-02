@@ -43,6 +43,12 @@ Definition Poly_Program := list Polyhedral_Instruction.
 
 Definition scanned to_scan n p m q := to_scan m q && negb (is_eq p q && (n =? m)%nat).
 Hint Unfold scanned.
+(** 对于某个to_scan来说，它的闭包记录了所有(n, p)对，to_scan m q = true，首先会发生一个重复检查，
+最终根据env_scan做判断，要求q在polyinstr[m]中，并且env保持一致.
+这种扫描，其实允许了q重复的情况，就是相同点被映射到相同的schedule（instruction point）. 
+每个p/q就是一个instruction point.
+能不能直接用这个语义证validator？还是证一下等价性，然后在s2sloop的工作上证比较好？==> TODO: 回顾下validate algo.
+*)
 
 Instance scanned_proper : Proper ((eq ==> veq ==> eq) ==> eq ==> veq ==> (eq ==> veq ==> eq)) scanned.
 Proof.
@@ -60,6 +66,7 @@ Inductive poly_semantics : (nat -> list Z -> bool) -> Poly_Program -> mem -> mem
 | PolyProgress : forall to_scan prog mem1 mem2 mem3 poly_instr n p,
     to_scan n p = true -> nth_error prog n = Some poly_instr ->
     (forall n2 p2 poly_instr2, nth_error prog n2 = Some poly_instr2 ->
+                          (** 没有另一个未被执行的instruction point比要被执行的这个小 *)
                           lex_compare (affine_product poly_instr2.(pi_schedule) p2) (affine_product poly_instr.(pi_schedule) p) = Lt ->
                           to_scan n2 p2 = false) ->
     instr_semantics poly_instr.(pi_instr) (affine_product poly_instr.(pi_transformation) p) mem1 mem2 ->
@@ -504,12 +511,25 @@ Proof.
 Qed.
 
 (** * Semantics in a fixed environment *)
-
+(* Print resize. *)
+(** 
+resize n l: len(l) > n 时补充0，len(l) < n 时截断.
+is_eq: 不关心 trailing zeros.
+*)
+(** 问：env一般是更长还是更短？这里的env到底是什么？看起来应该是context, constant *)
 Definition env_scan (prog : Poly_Program) (env : list Z) (dim : nat) (n : nat) (p : list Z) :=
   match nth_error prog n with
   | Some pi => is_eq env (resize (length env) p) && is_eq p (resize dim p) && in_poly p pi.(pi_poly)
+       (** 1. 这里应该是将p截断到env的长度，也就是要求p的env的部分和env(context)一致；
+           2. len(p) >= dim
+           3. p的确是domain中的一个点
+       *)
   | None => false
   end.
+
+(** 配合scanned使用 *)
+
+(* Print scanned. *)
 
 Definition env_poly_semantics (env : list Z) (dim : nat) (prog : Poly_Program) (mem1 mem2 : mem) :=
   poly_semantics (env_scan prog env dim) prog mem1 mem2.
