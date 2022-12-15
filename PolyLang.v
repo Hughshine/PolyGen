@@ -50,6 +50,16 @@ Hint Unfold scanned.
 能不能直接用这个语义证validator？还是证一下等价性，然后在s2sloop的工作上证比较好？==> TODO: 回顾下validate algo.
 *)
 
+(** 
+scanned
+	 : (nat -> list Z -> bool) -> nat -> list Z -> nat -> list Z -> bool
+
+to_scan 看起来是记录还没被执行的instruction point? 
+scanned每次增加一个被执行的点？
+to_scan n p 的 p，我不清楚它的含义；看起来是循环变量的值？
+n用来从poly program找poly instr. n 和 p 没有关系.
+*)
+
 Instance scanned_proper : Proper ((eq ==> veq ==> eq) ==> eq ==> veq ==> (eq ==> veq ==> eq)) scanned.
 Proof.
   intros to_scan1 to_scan2 Hto_scan n1 n2 Hn p1 p2 Hp m1 m2 Hm q1 q2 Hq.
