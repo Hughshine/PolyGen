@@ -25,6 +25,7 @@ Require Import Psatz.
 Require Import Misc.
 Require Import Vpl.ConsSet.
 Require Import Setoid.
+Require Import ArithRing Ring.
 
 Fixpoint vector_to_LinQ_rec (n : positive) (v : list Z) : LinQ.t :=
   match v with
@@ -372,8 +373,8 @@ Proof.
     unfold "*"%Qc. unfold "*"%Q. rewrite <- Qop.QOp.Q2Qc_this_eq.
     rewrite Q2Qc_eq_iff. simpl. unfold inject_Z. unfold "==". simpl.
     destruct Hdiv as [u Hu]. destruct d as [|d|d]; try congruence. simpl in Hu.
-    rewrite Hu. zify. ring_simplify. ring_simplify (' Qden w * 1).
-    rewrite <- Znumtheory.Zdivide_Zdiv_eq; try lia. exists ('u * Qnum w); nia.
+    rewrite Hu. zify. ring_simplify. ring_simplify (Z.pos (Qden w) * 1).
+    rewrite <- Znumtheory.Zdivide_Zdiv_eq; try lia. exists (Z.pos u * Qnum w); nia.
   - transitivity QNum.z.
     + rewrite QNum.MulComm. apply QNum.MulZL.
     + destruct (x <? max_binding l)%nat; simpl; symmetry; apply ZtoQ.ofZ_zero.

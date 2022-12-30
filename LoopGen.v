@@ -31,6 +31,9 @@ Require Import Heuristics.
 Require Import Vpl.Impure.
 Require Import ImpureAlarmConfig.
 
+Require Import String.
+Require Import List.
+
 Open Scope Z_scope.
 Open Scope list_scope.
 

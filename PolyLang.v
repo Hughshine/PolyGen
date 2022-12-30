@@ -26,6 +26,7 @@ Open Scope Z_scope.
 Open Scope list_scope.
 
 
+
 (** * The semantics of polyhedral programs with schedules *)
 
 Record Polyhedral_Instruction := {
@@ -82,6 +83,9 @@ Inductive poly_semantics : (nat -> list Z -> bool) -> Poly_Program -> mem -> mem
     instr_semantics poly_instr.(pi_instr) (affine_product poly_instr.(pi_transformation) p) mem1 mem2 ->
     poly_semantics (scanned to_scan n p) prog mem2 mem3 ->
     poly_semantics to_scan prog mem1 mem3.
+
+Print nth_error.
+
 
 Theorem poly_semantics_extensionality :
   forall to_scan1 prog mem1 mem2,

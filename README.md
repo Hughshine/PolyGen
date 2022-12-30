@@ -76,3 +76,7 @@ PolyLoopSimpl: Simplification of PolyLoop programs (section 6 of the paper).
 LoopGen: Code generation from PolyLoop to Loop (section 7 of the paper).
 CodeGen: Proof of the main result by composing all passes.
 ```
+
+# DOC
+
+polygen 中，没给出具体的Instr，包括Loop语言和Polylang都没有关心具体的instr，把Instr视为Opaque.
